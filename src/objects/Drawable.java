@@ -10,7 +10,7 @@ public abstract class Drawable extends Rectangle{
 	
 	private String type;
 	
-	private int xpos, ypos;
+	protected int xpos, ypos;
 	
 	private Image img;
 	

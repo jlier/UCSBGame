@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import objects.Background;
 import objects.Drawable;
+import objects.Mob;
 
 public class Screen extends JPanel implements Runnable{
 	
@@ -16,6 +17,7 @@ public class Screen extends JPanel implements Runnable{
 	private Thread thread;
 	
 	private ArrayList<Drawable> mobs;
+	private final String[] mobtypes = {"creeper","tank"};
 	
 	//----Run fields----//
 	private int tickCount;
@@ -24,17 +26,18 @@ public class Screen extends JPanel implements Runnable{
 	
 	//-----Objects------//
 	private Background background;
+	//------------------//
 	
 	public Screen(){
 		thread = new Thread(this);
 		mobs = new ArrayList<Drawable>();
-		
+
 		background = new Background(SCREEN_WIDTH, SCREEN_HEIGHT, "Background", "res/background.png");
-		mobs.add(background);
+		
+		addMob("creeper");
 		
 		tickCount = 0;
 		frameCount = 1000;
-		
 		thread.start();
 	}
 	
@@ -42,8 +45,11 @@ public class Screen extends JPanel implements Runnable{
 		return this.mobs;
 	}
 	
-	public void addMob(Drawable mob){
-		mobs.add(mob);
+	public void addMob(String type){
+		if(type.equals(mobtypes[0]))
+			mobs.add(new Mob(100, 100, type, "res/creeper.png"));
+		else
+			mobs.add(new Mob(50, 50, type, "res/tank.png"));
 	}
 	
 	public void removeMob(Drawable mob){
@@ -51,12 +57,14 @@ public class Screen extends JPanel implements Runnable{
 	}
 	
 	public void update(){
+		background.update();
 		for (Drawable mob : mobs) {
 			mob.update();
 		}
 	}
 	
 	public void paintComponent(Graphics g){
+		background.draw(g);
 		for(Drawable mob: mobs) {
 			mob.draw(g);
 		}
@@ -65,7 +73,7 @@ public class Screen extends JPanel implements Runnable{
 	public void run(){
 		while(true){
 			if(tickCount == frameCount){
-												//New Frame
+				//New Frame
 				update();
 				repaint();
 				tickCount = 0;
