@@ -1,8 +1,10 @@
 package game;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import objects.Background;
@@ -11,33 +13,43 @@ import objects.Mob;
 
 public class Screen extends JPanel implements Runnable{
 	
-	public final static int SCREEN_WIDTH = 800;
-	public final static int SCREEN_HEIGHT = 600; 
+	public final static int SCREEN_WIDTH = 1800;
+	public final static int SCREEN_HEIGHT = 800; 
+	
+	private Dimension dim;
+	
+	public final static float MOB_SPEED = 0.5f;
 	
 	private Thread thread;
+	
+	private KeyHandler keyHandler;
+	public static boolean[] direction = new boolean[4]; //37,38,39,40
 	
 	private ArrayList<Drawable> mobs;
 	private final String[] mobtypes = {"creeper","tank"};
 	
-	//----Run fields----//
 	private int tickCount;
 	private final int frameCount;
-	//------------------//
 	
-	//-----Objects------//
 	private Background background;
-	//------------------//
 	
-	public Screen(){
+	public Screen(JFrame f){
+		dim = new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
+		setPreferredSize(dim);
+		setSize(dim);
+		
 		thread = new Thread(this);
 		mobs = new ArrayList<Drawable>();
+		keyHandler = new KeyHandler();
+		
+		f.addKeyListener(keyHandler);
 
 		background = new Background(SCREEN_WIDTH, SCREEN_HEIGHT, "Background", "res/background.png");
 		
 		addMob("creeper");
 		
 		tickCount = 0;
-		frameCount = 1000;
+		frameCount = 100000;
 		thread.start();
 	}
 	

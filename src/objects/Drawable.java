@@ -10,7 +10,7 @@ public abstract class Drawable extends Rectangle{
 	
 	private String type;
 	
-	protected int xpos, ypos;
+	protected float xpos, ypos;
 	
 	private Image img;
 	
@@ -29,6 +29,22 @@ public abstract class Drawable extends Rectangle{
 	public abstract void update();
 	
 	public void draw(Graphics g){
-		g.drawImage(img, xpos, ypos, width, height, null);
+		g.drawImage(img, (int)xpos, (int)ypos, width, height, null);
+	}
+	
+	public void setXPos(float xpos){
+		this.xpos = xpos;
+	}
+	
+	public void setYPos(float ypos){
+		this.ypos = ypos;
+	}
+	
+	public float getXPos(){
+		return this.xpos;
+	}
+	
+	public float getYPos(){
+		return this.ypos;
 	}
 }
