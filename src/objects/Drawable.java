@@ -1,10 +1,7 @@
 package objects;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
-
-import javax.swing.ImageIcon;
 
 public abstract class Drawable extends Rectangle{
 	
@@ -12,14 +9,9 @@ public abstract class Drawable extends Rectangle{
 	
 	protected float xpos, ypos;
 	
-	private Image img;
-	
-	public Drawable(int width, int height, String type, String imgpath){
+	public Drawable(int width, int height){
 		this.width = width;
 		this.height = height;
-		this.type = type;
-		
-		img = new ImageIcon(imgpath).getImage();
 	}
 	
 	public String getType() {
@@ -28,9 +20,7 @@ public abstract class Drawable extends Rectangle{
 
 	public abstract void update();
 	
-	public void draw(Graphics g){
-		g.drawImage(img, (int)xpos, (int)ypos, width, height, null);
-	}
+	public abstract void draw(Graphics g);
 	
 	public void setXPos(float xpos){
 		this.xpos = xpos;
